@@ -10,9 +10,9 @@ SET assembly=engine
 
 SET compilerFlags=-Wall 
 
-SET includeFlags=-Isrc -Icore -I..\dependencies\GLFW\include -I..\dependencies\GLM
+SET includeFlags=-Isrc -Icore -I..\dependencies\GLFW\include -I..\dependencies\GLM -I..\dependencies\GLAD\include
 
 SET linkerFlags=-L..\dependencies\GLFW\lib -lglfw3 -lopengl32 -lgdi32 -luser32 -lkernel32 
 
 ECHO "Building %assembly%..."
-g++ %cppFilenames%  -o %assembly% %compilerFlags% %includeFlags% %linkerFlags% 
+g++ %cppFilenames% glad.c -o %assembly% %compilerFlags% %includeFlags% %linkerFlags% 

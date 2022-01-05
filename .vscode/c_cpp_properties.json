@@ -5,7 +5,8 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/dependencies/GLFW/include",
-                "${workspaceFolder}/dependencies/GLM/"
+                "${workspaceFolder}/dependencies/GLM/",
+                "${workspaceFolder}/dependencies/GLAD/include"
             ],
             "defines": [
                 "_DEBUG",
