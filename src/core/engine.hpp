@@ -1,16 +1,6 @@
 #ifndef ENGINE_HPP_
 #define ENGINE_HPP_
-
-#include <glad/glad.h>
-#include <glfw3.h>
-
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <glm.hpp>
-#include <ext.hpp>
-#include <vector>
-
+#include "../renderer/renderer.hpp"
 
 
 class EngineConfig{
