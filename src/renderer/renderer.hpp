@@ -16,7 +16,20 @@
 
 #include "program.hpp"
 
-//#define ASSERT
+#define ASSERT(x) if(!(x)) __debugbreak();
+#define GLCall(x) GLClearError();\
+    x;\
+    ASSERT(GLLogCall(#x),__FILE__,__LINE__)
+
+
+
+static void GLClearError(){
+    while(glGetError()!=GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* function, const char* file, int line){
+
+}
 class Renderer
 {
 private:
@@ -24,22 +37,19 @@ private:
 public:
     float* verticesData;
     float* indicesData;
-    
+    Program *shaderProgram;
     std::vector<Shader> shaders;
-    Renderer(){
-        Program *shaderProgram = NULL;
-        GLuint VAO = 0;
-        GLuint VBO = 0;
-    }
+    GLuint VAO;
+    GLuint VBO;
+
+
+    Renderer();
     ~Renderer();
 
     Renderer(const Renderer &) = delete;
     Renderer &operator=(const Renderer &) = delete;
     void loadShaders();
-    void draw();
 
-    void bind(float* vertices);
-    void unbind();
 
 };
 #endif

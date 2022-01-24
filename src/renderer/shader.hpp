@@ -13,6 +13,7 @@ private:
 
 public:
     Shader(const Shader &other);
+    ~Shader();
     Shader &operator=(const Shader &other);
     
     GLuint getShaderObjectID() const;
