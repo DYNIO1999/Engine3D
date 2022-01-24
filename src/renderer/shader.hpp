@@ -1,24 +1,44 @@
-#ifndef SHADER_HPP_
-#define SHADER_HPP_
+#ifndef _SHADER_HPP_
+#define _SHADER_HPP_
+
 #include <string>
-#include "glad/glad.h"
+#include <unordered_map>
+#include "glm.hpp"
+
+struct ShaderProgramSource
+{
+    std::string VertexSource;
+    std::string FragmentSource;
+};
+
 class Shader
 {
 private:
-    GLuint shaderObjectId;
-    unsigned int* refCounter;
+    std::string m_FilePath; // for debugging
+    unsigned int m_RendererId;
+    // caching for uniforms
+    std::unordered_map<std::string, int> m_UniformLocationCache;
 
-    void _retain();
-    void _release();
+    int GetUniformLocation(const std::string &name);
+
+    ShaderProgramSource ParseShader(const std::string &filepath);
+    unsigned int CompileShader(unsigned int type, const std::string &source);
+    unsigned int CreateShader(const std::string &vertexShader, const std::string &fragmentShader);
 
 public:
-    Shader(const Shader &other);
+    Shader(const std::string &filepath);
     ~Shader();
-    Shader &operator=(const Shader &other);
-    
-    GLuint getShaderObjectID() const;
-    Shader(const std::string &shaderCode, GLenum shaderType);
 
-    static Shader shaderFromFile(const std::string &filePath, GLenum shaderType);
+    void Bind() const;
+    void Unbind() const;
+
+    // set uniforms
+    void SetUniform1i(const std::string &name, int value);
+    void SetUniform1f(const std::string &name, float value);
+    void SetUniform4f(const std::string &name, float v0, float v1, float v2, float v3);
+    void SetUniformMat4f(const std::string &name, glm::mat4 matrix);
+
+    // TODO: implement all possible (matrices, etc)
 };
+
 #endif
