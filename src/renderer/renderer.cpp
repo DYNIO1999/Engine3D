@@ -1,29 +1,56 @@
-#include "renderer.hpp"
+#include "Renderer.h"
 
-Renderer::Renderer(){
 
+
+
+void GLClearError(){
+    while(glGetError()!= GL_NO_ERROR);
 }
-Renderer::~Renderer(){
 
+bool GLLogCall(const char *function, const char *file, int line){
+    while (GLenum error = glGetError())
+    {
+        std::cout << "[OpenGL Error] (" << error << "):" << function << " " << file << ":" << line << std::endl;
+        return false;
+    }
+    return true;
 }
-void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, const Shader &shader) const
+
+Renderer::Renderer()
 {
-    // bind
+
+}
+Renderer::~Renderer()
+{
+
+}
+
+void Renderer::Draw(const VertexArray& va, const IndexBuffer& ib, const Shader& shader) const{
     shader.Bind();
     va.Bind();
     ib.Bind();
-
-    // could put this into index buffer
     GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr)); // number of INDICES
-
-    // TODO: could remove Unbind() here, but its not strictly necessary (wastes performance) but useful for debugging
-    shader.Unbind();
-    va.Unbind();
-    ib.Unbind();
 }
 
-void Renderer::Clear() const
-{
-    // glClearColor(0.2f, 0.3f, 0.3f, 0.5f); // 1 is fully visible alpha
-    GLCall(glClear(GL_COLOR_BUFFER_BIT));
+void Renderer::Clear() const{
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+}
+
+void Renderer::Draw(const VertexArray &va, const IndexBuffer &ib, const Shader &shader, unsigned int type) const{
+    shader.Bind();
+    va.Bind();
+    ib.Bind();
+    if (type == GL_POINTS){
+        GLCall(glDrawElements(GL_POINTS, ib.GetCount(), GL_UNSIGNED_INT, nullptr)); // number of INDICES
+    }
+    else if (type == GL_TRIANGLES)
+    {
+        GLCall(glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
+    }
+    else if (type == GL_LINES)
+    {
+        GLCall(glDrawElements(GL_LINES, ib.GetCount(), GL_UNSIGNED_INT, nullptr));
+    }
 }
