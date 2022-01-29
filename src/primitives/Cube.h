@@ -12,7 +12,9 @@ enum  CUBE_TYPE{
     CUBE_DEFAULT,
     CUBE_DIFFERENT_COLORS,
 };
-
+/** 
+ * Klasa sześcianu
+ */
 class Cube
 {
 
@@ -29,6 +31,10 @@ private:
     int layout;
     int type;
 
+/**
+ * Sześcian przyjmuje wartości pozycji x,y,z oraz typ  
+ * 
+ */
 public:
     Cube(float x, float y, float z, int type) : x(x), y(y), z(z), type(type)
     {
@@ -84,40 +90,62 @@ public:
         indicesCount = 36;
         layout = 3;
     }
+    /**
+     * Destruktor sześcianu
+     *usuwanie indeksu
+     *usuwanie pozycji
+     */
     ~Cube()
     {
         delete[] indices;
         delete[] position;
     }
+    /**
+     *Zwracanie stworzonego modelu
+     */
     glm::mat4 GetTransform()
     {
         return model;
     }
+    /**
+     * Metoda sluzy do ustawiania pozycji sześcianu
+     */
     void setPos(glm::vec3)
     {
         model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
     }
-
+    /**
+     * Metoda sluzy do zliczania liczby indeksów 
+     */
     unsigned int IndicesCount()
     {
         return indicesCount;
     }
+    /**
+     * Metoda zwraca nam pozycje bufora
+     */
 
     float *GetBufferPosition()
     {
         return position;
     }
-
+    /**
+     * Metoda zwraca nam indeks bufora
+     */
     unsigned int *GetBufferIndices()
     {
         return indices;
     }
-
+ /**
+     * Metoda zwraca nam układ
+     */
     int GetLayout()
     {
         return layout;
     }
-
+    /**
+     * Metoda zwraca rozmiar bufora
+     */
     unsigned int GetBufferSize()
     {
 
